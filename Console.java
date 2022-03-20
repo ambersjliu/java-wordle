@@ -48,7 +48,7 @@ public class Console{
             //choose a different word every round
             int index = rand.nextInt(s.size());
             String word = s.get(index);
-            System.out.println(word);
+            
             
             boolean guessed = false;
             int rounds = 0;
