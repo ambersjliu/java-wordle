@@ -14,25 +14,40 @@ public class Console{
             }
         }
 
+        System.out.println("Welcome to Wordle!"+
+                            "\nEnter 5 letter words to guess the selected one. A * preceding a character means it's in the right place, "+
+                            "\na ? preceding a character means it's in the word but not in that position. Otherwise, the character is not in the word.");
 
-        int rounds = 0;
-        //printing the words each round
-         while(guessed == false || rounds < 6){
-            showBoard(chars);
-            String guess = "";
-            while(guess.length()!=5){
-                System.out.println("Enter your next guess: ");
-                guess = sc.nextLine();
+        String answer = "";
+        
+        do{
+            int rounds = 0;
+            //printing the words each round
+            while(guessed == false || rounds < 6){
+
+                String guess = "";
+                while(guess.length()!=5){
+                    System.out.println("Enter your next guess: ");
+                    guess = sc.nextLine();
+                }
+                
+
+                String[] result = check(word, guess);
+
+                for(int i =0; i<5; i++){
+                    chars[rounds][i] = result[i];
+                }
+                showBoard(chars);
+                rounds++;
+                if(word.equals(guess)){
+                    break;
+                }
+
             }
-
-            String[] result = check(word, guess);
-
-            for(int i =0; i<5; i++){
-                chars[rounds][i] = result[i];
-            }
-            rounds++;
-
-        } 
+            System.out.println("You guessed it in " + rounds + "/6 tries."); 
+            System.out.println("Play again? Type 'EXIT' to leave.");
+            answer = sc.nextLine();
+        }while(answer!="EXIT");
 
 
     }
