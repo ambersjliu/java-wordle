@@ -56,9 +56,9 @@ public class Console{
             do{
 
                 String guess = "";
-                while(guess.length()!=5){
+                while(guess.length()!=5 || !(s.contains(guess))){
                     System.out.println("Enter your next guess: ");
-                    guess = sc.nextLine();
+                    guess = sc.nextLine().toLowerCase();
                 }
                 
 
@@ -78,6 +78,7 @@ public class Console{
             if(guessed==true){
                 System.out.println("You guessed it in " + rounds + "/6 tries."); 
             }else{
+                System.out.println("The word was :" + word);
                 System.out.println("You couldn't guess the word. Better luck next time!");
             }
 
@@ -106,6 +107,7 @@ public class Console{
     }
 
     //checks how the entered word compares to the word to guess
+    //Need to handle duplicate letters in a guess...
     public static String[] check(String word, String entered){
         String[] result = new String[5];
         for(int i = 0; i < 5; i++){
