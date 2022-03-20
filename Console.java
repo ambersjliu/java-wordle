@@ -6,7 +6,7 @@ public class Console{
         Scanner sc = new Scanner(System.in);
 
         String word = "apple";
-        boolean guessed = false;
+        
         String[][] chars = new String[6][5];
         for(int i = 0; i<6; i++){
             for(int j = 0; j<5; j++){
@@ -21,9 +21,10 @@ public class Console{
         String answer = "";
         
         do{
+            boolean guessed = false;
             int rounds = 0;
             //printing the words each round
-            while(guessed == false || rounds < 6){
+            do{
 
                 String guess = "";
                 while(guess.length()!=5){
@@ -40,11 +41,16 @@ public class Console{
                 showBoard(chars);
                 rounds++;
                 if(word.equals(guess)){
-                    break;
+                    guessed=true;
                 }
 
+            }while(guessed == false && rounds < 6);
+
+            if(guessed==true){
+                System.out.println("You guessed it in " + rounds + "/6 tries."); 
+            }else{
+                System.out.println("You couldn't guess the word. Better luck next time!");
             }
-            System.out.println("You guessed it in " + rounds + "/6 tries."); 
             System.out.println("Play again? Type 'EXIT' to leave.");
             answer = sc.nextLine();
         }while(answer!="EXIT");
