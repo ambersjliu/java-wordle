@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class Console{
 
     public static void main(String[] args){
+        //initializing everything
 
         //scanner for input
         Scanner sc = new Scanner(System.in);
@@ -31,25 +32,27 @@ public class Console{
             System.out.println("File error");
         }
 
-        String word = "apple";
         
         String[][] chars = new String[6][5];
         clearChars(chars);
 
+        //intro
         System.out.println("Welcome to Wordle!"+
                             "\nEnter 5 letter words to guess the selected one. A * preceding a character means it's in the right place, "+
                             "\na ? preceding a character means it's in the word but not in that position. Otherwise, the character is not in the word.");
 
         String answer = "";
         
+        //keep playing loop
         do{
+            //choose a different word every round
             int index = rand.nextInt(s.size());
-            word = s.get(index);
+            String word = s.get(index);
             System.out.println(word);
             
             boolean guessed = false;
             int rounds = 0;
-            //printing the words each round
+            //main gameplay loop (guessing words)
             do{
 
                 String guess = "";
@@ -71,20 +74,24 @@ public class Console{
                 }
 
             }while(guessed == false && rounds < 6);
-
+            //if word guessed
             if(guessed==true){
                 System.out.println("You guessed it in " + rounds + "/6 tries."); 
             }else{
                 System.out.println("You couldn't guess the word. Better luck next time!");
             }
+
+            //ask for replay
             System.out.println("Play again? Type 'EXIT' to leave.");
             answer = sc.nextLine();
             clearChars(chars);
+            
         }while(answer!="EXIT");
 
 
     }
 
+    //prints the board out
     public static void showBoard(String[][] chars){
         for(int i = 0; i<6; i++){
             for(int j = 0; j<5; j++){
@@ -98,6 +105,7 @@ public class Console{
         }
     }
 
+    //checks how the entered word compares to the word to guess
     public static String[] check(String word, String entered){
         String[] result = new String[5];
         for(int i = 0; i < 5; i++){
@@ -120,6 +128,7 @@ public class Console{
 
     }
 
+    //clears all letters in the word array
     public static void clearChars(String[][]chars){
         for(int i = 0; i<6; i++){
             for(int j = 0; j<5; j++){
