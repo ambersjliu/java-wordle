@@ -38,13 +38,12 @@ public class Console{
     }
 
     public static void showBoard(String[][] chars){
-        System.out.println("This runs");
         for(int i = 0; i<6; i++){
             for(int j = 0; j<5; j++){
                 if(chars[i][j].equals("")){
-                    System.out.print("_");
+                    System.out.print("_ ");
                 }else{
-                    System.out.print(chars[i][j]);
+                    System.out.print(chars[i][j]+" ");
                 }
             }
             System.out.println();
