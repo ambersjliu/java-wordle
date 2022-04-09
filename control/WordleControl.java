@@ -97,11 +97,15 @@ public class WordleControl {
             guessCount++;
         }
 
-        if(guessed)
+        if(guessed){
+            game.playGameSound("you won");
             game.congratulate(desc, guessCount);
             //use jconfirmpane
-        else
+        }
+        else{
+            game.playGameSound("you lost");
             game.sorry(word,desc, guessCount);
+        }
         game.dispose();
     }
     

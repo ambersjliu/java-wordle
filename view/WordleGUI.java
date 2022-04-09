@@ -1,13 +1,17 @@
 
 package view;
 import model.GuessResult;
-
+import javax.sound.sampled.*;
 import javax.swing.*;
+
+import java.io.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 
 
 public class WordleGUI extends JFrame implements KeyListener, ActionListener {
@@ -275,5 +279,39 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
         JOptionPane.showMessageDialog(this, scrollPane, "Better luck next time!",
                                        JOptionPane.DEFAULT_OPTION);
     }
+
+    /**
+	 * Plays a different .wav clip depending on the mode given.
+	 * @param mode the context(shoot, hit, miss, game over)
+	 */
+	public void playGameSound(String mode){
+		String YOUWINFILE = "youwin.wav";
+		String YOULOSTFILE = "youlose.wav";
+		String audioFile;
+		Clip clip;
+		AudioInputStream audioInputStream;
+
+		if(mode.equals("you won")){
+			audioFile = YOUWINFILE;
+		}else{
+			audioFile = YOULOSTFILE;
+        }	
+
+
+		try {
+			// create AudioInputStream object
+			audioInputStream = AudioSystem.getAudioInputStream(new File(audioFile).getAbsoluteFile());
+			// create clip reference
+			clip = AudioSystem.getClip();
+			// open audioInputStream to the clip
+			clip.open(audioInputStream);
+			clip.start();
+			Thread.sleep(3000);
+			clip.close();
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException | InterruptedException e) { 
+			((Throwable) e).printStackTrace();
+		}
+		
+	}
 }
 //gaming
