@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+import model.Constants;
 import model.GuessResult;
 import view.WordleGUI;
 
@@ -21,6 +22,35 @@ public class WordleControl {
     int totalRows;
 
     public void initialize(){
+        try {
+            Scanner w4 = new Scanner(new File("words4.txt"));
+            Scanner w5 = new Scanner(new File("words5.txt"));
+            Scanner w6 = new Scanner(new File("words6.txt"));
+            Scanner w7 = new Scanner(new File("words7.txt"));
+            Scanner w8 = new Scanner(new File("words8.txt"));
+            Scanner w9 = new Scanner(new File("words9.txt"));
+
+            while (w4.hasNext()) {
+                Constants.validGuesses.add(w4.nextLine());
+            }
+            while (w5.hasNext()) {
+                Constants.validGuesses.add(w5.nextLine());
+            }
+            while (w6.hasNext()) {
+                Constants.validGuesses.add(w6.nextLine());
+            }
+            while (w7.hasNext()) {
+                Constants.validGuesses.add(w7.nextLine());
+            }
+            while (w8.hasNext()) {
+                Constants.validGuesses.add(w8.nextLine());
+            }
+            while (w9.hasNext()) {
+                Constants.validGuesses.add(w9.nextLine());
+            }
+        } catch (Exception e) {
+//            System.out.println("file not found");
+        }
         Scanner sc = new Scanner(System.in);
         Random rand = new Random();
         words = new ArrayList<>();
@@ -38,10 +68,10 @@ public class WordleControl {
 
         } 
         catch (FileNotFoundException e) {
-            System.out.println("File not found");
+//            System.out.println("File not found");
         }
         catch (Exception e) {
-            System.out.println("File error");
+//            System.out.println("File error");
         }
 
         try {
@@ -55,10 +85,10 @@ public class WordleControl {
 
         } 
         catch (FileNotFoundException e) {
-            System.out.println("File not found");
+//            System.out.println("File not found");
         }
         catch (Exception e) {
-            System.out.println("File error");
+//            System.out.println("File error");
         }
         //choose random word
 
@@ -79,9 +109,9 @@ public class WordleControl {
 
         while (!guessed && guessCount < totalRows){
             String guessedWord = game.getGuessedWord();
-            System.out.println(guessedWord);
+//            System.out.println(guessedWord);
             if (game.checkGuess(guessedWord)) {
-                System.out.println(guessedWord + " is valid");
+//                System.out.println(guessedWord + " is valid");
                 GuessResult result = checkWord(word, guessedWord);
                 checkAllGuessed(result);
                 game.refresh(result, guessCount);
@@ -101,10 +131,11 @@ public class WordleControl {
         }
         game.dispose();
     }
-    
+
     GuessResult checkWord(String word, String guessedWord){
-        System.out.println("word is "+ word + " length is " + word.length());
+//        System.out.println("word is "+ word + " length is " + word.length());
         GuessResult result = new GuessResult(word.length());
+
         HashMap<Character, Integer> seen =new HashMap<>();
         for (int i = 0; i<word.length(); i++){
             seen.put(word.charAt(i), countChar(word, word.charAt(i)));
@@ -139,6 +170,15 @@ public class WordleControl {
                 result.getIndividualResult().set(i,0);
             }
         }
+
+        for (int i = 0; i < guessedWord.length(); i++) {
+            if (result.getIndividualResult().get(i) == 2) {
+                Constants.letterStates[guessedWord.charAt(i) - 65] = 2;
+            } else if (result.getIndividualResult().get(i) == 1) {
+                Constants.letterStates[guessedWord.charAt(i) - 65] = 1;
+            }
+        }
+        System.out.println(word);
 
         // logic here
         return result;
