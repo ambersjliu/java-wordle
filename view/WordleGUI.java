@@ -133,8 +133,14 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
     }
 
     public void refresh(GuessResult individualResult, int guessCount) {
+        System.out.println("individualResult contents: ");
+        for (int x : individualResult.getIndividualResult()) {
+            System.out.print(x + " ");
+        }
+        System.out.println();
         for (int i = 0; i < this.wordSize; i++) {
             guessesPanelLetters[guessCount][i].setText(Character.toString(letterBoard[guessCount][i]));
+
             Color bkg = new Color(58, 58, 60);
             switch (individualResult.getIndividualResult().get(i)) {
                 case 1:
@@ -162,7 +168,6 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println(e.getKeyCode());
         if (e.getKeyCode() == 8) { //backspace
             if (cursor[1] != 0) {
                 letterBoard[cursor[0]][cursor[1] - 1] = ' ';
@@ -175,6 +180,8 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
                     guess += c; //fill guess string with letters in current row
                 }
                 guessedWord=guess;
+                cursor[0]++;
+                cursor[1] = 0;
             } else {
                 System.out.println("invalid guess"); //row not filled
             }
@@ -230,10 +237,13 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
             }
         } else {
             if (cursor[1] == this.wordSize) {
-                String guess = "";
+                guess = "";
                 for (char c : letterBoard[cursor[0]]) {
                     guess += c;
                 }
+                cursor[0]++;
+                cursor[1] = 0;
+                System.out.println("guess updated to " + guess);
             } else {
                 System.out.println("invalid guess");
             }
