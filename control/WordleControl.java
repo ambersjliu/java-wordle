@@ -82,19 +82,78 @@ public class WordleControl {
         }
 
         if(guessed)
-            game.congratulate(desc);
+            game.congratulate(word,desc);
             //use jconfirmpane
         else
-            game.sorry(desc);
+            game.sorry(word,desc);
 
     }
     
     GuessResult checkWord(String word, String guessedWord){
         GuessResult result = new GuessResult(word.length());
+        HashMap<Character, Integer> seen =new HashMap<Character, Integer>();
+        for (int i = 0; i<word.length(); i++){
+            seen.put(word.charAt(i), countChar(word, word.charAt(i)));
+        }
+
+        for(int i = 0; i < word.length(); i++){
+            char current = guessedWord.charAt(i);
+            String cur = "" + current;
+            String wordCur = "" + word.charAt(i);
+            
+            if(cur.equals(wordCur)){
+                result.getIndividualResult().set(i, 2);
+                seen.replace(current, seen.get(current)-1);
+            }else{
+
+                result.getIndividualResult().set(i, 0);
+
+            }
+
+        }
+
+        for(int i = 0; i <word.length(); i++){
+            char current = guessedWord.charAt(i);
+            String cur = "" + current;
+            String wordCur = "" + word.charAt(i);
+            if(cur.equals(wordCur)){
+                continue;
+            }
+            if (word.indexOf(cur) != -1 && seen.get(current) > 0) {
+                result.getIndividualResult().set(i, 1);
+                seen.replace(current, seen.get(current) - 1);
+            } else {
+                result.getIndividualResult().set(i,0);
+            }
+        }
 
         // logic here
         return result;
     }
+
+    void checkAllGuessed(GuessResult g){
+        boolean allGuessed = true;
+        for(Integer i : g.getIndividualResult()){
+            if(i!=2){
+                allGuessed = false;
+            }
+        }
+        g.setAllGuessed(allGuessed);
+    }
+
+
+    public static int countChar(String str, char c){
+        int count = 0;
+
+        for(int i=0; i < str.length(); i++){
+            if(str.charAt(i) == c){
+                count++;
+            }
+        }
+
+        return count;
+    }
+
     
     /*void guessWords(){
         
