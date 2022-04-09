@@ -66,18 +66,6 @@ public class WordleControl {
         word = words.get(index).toUpperCase();
         desc = descs.get(index);
 
-  /*       
-        //read in word list of all words equal to word length
-        switch (word.length()) {
-            case 6:
-                
-                break;
-            case value:
-                break;
-            default:
-                break;
-        } */
-
         totalRows = word.length()+1;
         game = new WordleGUI(word.length());
 
@@ -110,7 +98,6 @@ public class WordleControl {
     }
     
     GuessResult checkWord(String word, String guessedWord){
-        System.out.println("word is "+ word + " length is " + word.length());
         GuessResult result = new GuessResult(word.length());
         HashMap<Character, Integer> seen =new HashMap<Character, Integer>();
         for (int i = 0; i<word.length(); i++){
@@ -176,20 +163,6 @@ public class WordleControl {
     }
 
     
-    /*void guessWords(){
-        
-    }
 
-
-    */
-
-/* 
-    public void startGame() {
-
-		while (true) { // loop that brings game back to initial state after game over
-			initialize(); // reset vals to 0
-			mainLoop();
-		}
-	}  */
 
 }

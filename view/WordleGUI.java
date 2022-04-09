@@ -137,11 +137,6 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
     }
 
     public void refresh(GuessResult individualResult, int guessCount) {
-        System.out.println("individualResult contents: ");
-        for (int x : individualResult.getIndividualResult()) {
-            System.out.print(x + " ");
-        }
-        System.out.println();
         for (int i = 0; i < this.wordSize; i++) {
             guessesPanelLetters[guessCount][i].setText(Character.toString(letterBoard[guessCount][i]));
 
