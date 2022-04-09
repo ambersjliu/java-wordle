@@ -61,7 +61,8 @@ public class WordleControl {
             System.out.println("File error");
         }
         //choose random word
-        index = rand.nextInt(words.size());
+        //index = rand.nextInt(words.size()); 
+        index = 4;
         word = words.get(index).toUpperCase();
         desc = descs.get(index);
 
@@ -90,16 +91,17 @@ public class WordleControl {
             String guessedWord = game.getGuessedWord();
             System.out.println(guessedWord);
             GuessResult result = checkWord(word, guessedWord);
+            checkAllGuessed(result);
             game.refresh(result, guessCount);
             guessed=result.isAllGuessed();
             guessCount++;
         }
-/*
+
         if(guessed)
-            game.congratulate(word,desc);
+            game.congratulate(desc, guessCount);
             //use jconfirmpane
         else
-            game.sorry(word,desc); */
+            game.sorry(word,desc, guessCount);
 
     }
     
@@ -152,6 +154,7 @@ public class WordleControl {
                 allGuessed = false;
             }
         }
+        
         g.setAllGuessed(allGuessed);
     }
 

@@ -250,5 +250,30 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
         }
         updateBoard();
     }
+
+    
+
+    public void congratulate(String desc, int tries){
+
+        JTextArea textArea = new JTextArea("You guessed it in " + tries + " tries!\n"+desc);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        scrollPane.setPreferredSize(new Dimension(200, 200));
+        JOptionPane.showMessageDialog(this, scrollPane, "Congratulations!",
+                                       JOptionPane.DEFAULT_OPTION);
+
+    }
+
+    public void sorry(String word, String desc, int tries){
+
+        JTextArea textArea = new JTextArea("The word was " + word + ".\n" + desc);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        scrollPane.setPreferredSize(new Dimension(200, 200));
+        JOptionPane.showMessageDialog(this, scrollPane, "Better luck next time!",
+                                       JOptionPane.DEFAULT_OPTION);
+    }
 }
 //gaming
