@@ -98,6 +98,7 @@ public class WordleControl {
     }
     
     GuessResult checkWord(String word, String guessedWord){
+        System.out.println("word is "+ word + " length is " + word.length());
         GuessResult result = new GuessResult(word.length());
         HashMap<Character, Integer> seen =new HashMap<Character, Integer>();
         for (int i = 0; i<word.length(); i++){
