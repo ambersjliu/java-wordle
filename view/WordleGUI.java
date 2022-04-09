@@ -1,3 +1,4 @@
+package view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -113,10 +114,10 @@ public class WordleGUI extends JFrame implements KeyListener {
         getContentPane().setBackground(new Color(18, 18, 19));
         setVisible(true);
     }
-
+/* 
     public static void main(String[] args) {
         WordleGUI wordleGUI = new WordleGUI(6);
-    }
+    } */
 
     @Override
     public void keyTyped(KeyEvent e) {

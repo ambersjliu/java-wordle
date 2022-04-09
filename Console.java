@@ -44,9 +44,9 @@ public class Console{
         //keep playing loop
         do{
             //choose a different word every round
-    /*         int index = rand.nextInt(s.size());
-            String word = s.get(index); */
-            String word = "apple";
+            int index = rand.nextInt(s.size());
+            String word = s.get(index); 
+ 
             
             
             boolean guessed = false;
