@@ -13,6 +13,7 @@ public class WordleControl {
     Random rand = new Random();
     ArrayList<String> words = new ArrayList<>();
     ArrayList<String> descs = new ArrayList<>();
+    ArrayList<String> validWords = new ArrayList<>();
     int index;
     String word;
     String desc;
@@ -60,10 +61,23 @@ public class WordleControl {
         catch (Exception e) {
             System.out.println("File error");
         }
-
+        //choose random word
         index = rand.nextInt(words.size());
         word = words.get(index);
         desc = descs.get(index);
+
+        
+        //read in word list of all words equal to word length
+        switch (word.length()) {
+            case 6:
+                
+                break;
+            case value:
+                break;
+            default:
+                break;
+        }
+
         totalRows = word.length()+1;
         game = new WordleGUI(word.length());
 
@@ -162,16 +176,13 @@ public class WordleControl {
 
     */
 
-
-/*  public void startGame() {
+/* 
+    public void startGame() {
 
 		while (true) { // loop that brings game back to initial state after game over
 			initialize(); // reset vals to 0
-			
-			while (!currentGameOver) { // while no one has won
-				guessWords();
-			}
+			mainLoop();
 		}
-	} */
+	}  */
 
 }

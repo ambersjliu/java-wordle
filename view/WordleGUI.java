@@ -186,6 +186,7 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
         typing.setText(" ");
     }
 
+
     @Override
     public void keyReleased(KeyEvent e) {
         typing.setText(" ");
