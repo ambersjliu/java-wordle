@@ -62,7 +62,7 @@ public class WordleControl {
         }
         //choose random word
         index = rand.nextInt(words.size());
-        word = words.get(index);
+        word = words.get(index).toUpperCase();
         desc = descs.get(index);
 
   /*       
@@ -113,10 +113,9 @@ public class WordleControl {
 
         for(int i = 0; i < word.length(); i++){
             char current = guessedWord.charAt(i);
-            String cur = "" + current;
-            String wordCur = "" + word.charAt(i);
+            char wordCurrent = word.charAt(i);
 
-            if(cur.equals(wordCur)){
+            if(current==wordCurrent){
                 result.getIndividualResult().set(i, 2);
                 seen.replace(current, seen.get(current)-1);
             }else{
