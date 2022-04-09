@@ -1,3 +1,5 @@
+
+package view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -90,6 +92,7 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
         keyboardPanel2.setLayout(new GridLayout(1, 9));
         keyboardPanel3.setLayout(new GridLayout(1, 9));
         typing = new JTextField();
+        typing.setText(" ");
         typing.addKeyListener(this);
 
         add(guessesPanel);
@@ -138,47 +141,48 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        typing.setText(" ");
+        typing.setText("");
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == 8) {
+        System.out.println(e.getKeyCode());
+        if (e.getKeyCode() == 8) { //backspace
             if (cursor[1] != 0) {
                 letterBoard[cursor[0]][cursor[1] - 1] = ' ';
                 cursor[1]--;
                 System.out.println("char deleted");
             }
-        } else if (e.getKeyCode() == 10) {
-            if (cursor[1] == this.wordSize) {
-                String guess = "";
+        } else if (e.getKeyCode() == 10) { //enter
+            if (cursor[1] == this.wordSize) { //the row is filled
+                String guess = " ";
                 for (char c : letterBoard[cursor[0]]) {
-                    guess += c;
+                    guess += c; //fill guess string with letters in current row
                 }
-                if (checkGuess(guess)) {
-                    if (cursor[0] == this.wordSize) {
-                        System.out.println("finish game");
+                if (checkGuess(guess)) { //if guess is verified
+                    if (cursor[0] == this.wordSize) { //if on last row
+                        System.out.println("finish game"); //game done
                     } else {
-                        cursor[0]++;
-                        cursor[1] = 0;
+                        cursor[0]++; //move to next row
+                        cursor[1] = 0; //set vertical pos back to first char
                     }
                 } else {
-                    System.out.println("invalid guess");
+                    System.out.println("invalid guess"); //guess not valid
                 }
             } else {
-                System.out.println("invalid guess");
+                System.out.println("invalid guess"); //row not filled
             }
-        } else if (e.getKeyCode() >= 65 && e.getKeyCode() <= 90) {
-            if (cursor[1] != this.wordSize) {
+        } else if (e.getKeyCode() >= 65 && e.getKeyCode() <= 90) { //any other letter char
+            if (cursor[1] != this.wordSize) { //row not filled yet
                 letterBoard[cursor[0]][cursor[1]] = Character.toTitleCase((char) e.getKeyCode());
                 cursor[1]++;
             } else {
                 System.out.println("full characters");
             }
         } else {
-            System.out.println("invalid character");
+            System.out.println("invalid character"); //character can be typed
         }
-        updateBoard();
+        updateBoard(); //set text inside buttons
         typing.setText(" ");
     }
 
