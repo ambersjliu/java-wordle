@@ -92,6 +92,7 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
         keyboardPanel2.setLayout(new GridLayout(1, 9));
         keyboardPanel3.setLayout(new GridLayout(1, 9));
         typing = new JTextField();
+        typing.setText(" ");
         typing.addKeyListener(this);
 
         add(guessesPanel);
@@ -154,7 +155,7 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
             }
         } else if (e.getKeyCode() == 10) {
             if (cursor[1] == this.wordSize) {
-                String guess = "";
+                String guess = " ";
                 for (char c : letterBoard[cursor[0]]) {
                     guess += c;
                 }
@@ -182,12 +183,12 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
             System.out.println("invalid character");
         }
         updateBoard();
-        typing.setText("");
+        typing.setText(" ");
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        typing.setText("");
+        typing.setText(" ");
     }
 
     @Override
