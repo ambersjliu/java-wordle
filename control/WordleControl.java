@@ -83,6 +83,7 @@ public class WordleControl {
 
         if(guessed)
             game.congratulate(desc);
+            //use jconfirmpane
         else
             game.sorry(desc);
 

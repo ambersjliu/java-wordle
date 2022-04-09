@@ -7,7 +7,7 @@ public class GuessResult {
     // 0: wrong, 1: in word 2: right at position
     ArrayList<Integer> individualResult;
     
-  
+
 
     public boolean isAllGuessed() {
         return allGuessed;
