@@ -61,8 +61,8 @@ public class WordleControl {
             System.out.println("File error");
         }
         //choose random word
-        //index = rand.nextInt(words.size()); 
-        index = 4;
+        index = rand.nextInt(words.size()); 
+
         word = words.get(index).toUpperCase();
         desc = descs.get(index);
 
@@ -102,7 +102,7 @@ public class WordleControl {
             //use jconfirmpane
         else
             game.sorry(word,desc, guessCount);
-
+        game.dispose();
     }
     
     GuessResult checkWord(String word, String guessedWord){
