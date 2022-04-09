@@ -92,9 +92,9 @@ public class WordleControl {
             GuessResult result = checkWord(word, guessedWord);
             game.refresh(result, guessCount);
             guessed=result.isAllGuessed();
-            guessCount++;            
+            guessCount++;
         }
-/* 
+/*
         if(guessed)
             game.congratulate(word,desc);
             //use jconfirmpane
@@ -115,7 +115,7 @@ public class WordleControl {
             char current = guessedWord.charAt(i);
             String cur = "" + current;
             String wordCur = "" + word.charAt(i);
-            
+
             if(cur.equals(wordCur)){
                 result.getIndividualResult().set(i, 2);
                 seen.replace(current, seen.get(current)-1);

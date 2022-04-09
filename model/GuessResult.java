@@ -35,9 +35,9 @@ public class GuessResult {
 
     public GuessResult(int wordLength){
         allGuessed = false;
-        individualResult = new ArrayList<>(wordLength);
+        individualResult = new ArrayList<>();
         for (int i=0; i< wordLength;i++){
-            individualResult.set(i, 0);
+            individualResult.add(0);
         }
     }
 }

@@ -162,7 +162,6 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println(e.getKeyCode());
         if (e.getKeyCode() == 8) { //backspace
             if (cursor[1] != 0) {
                 letterBoard[cursor[0]][cursor[1] - 1] = ' ';
@@ -230,10 +229,11 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
             }
         } else {
             if (cursor[1] == this.wordSize) {
-                String guess = "";
+                guess = "";
                 for (char c : letterBoard[cursor[0]]) {
                     guess += c;
                 }
+                System.out.println("guess updated to " + guess);
             } else {
                 System.out.println("invalid guess");
             }
