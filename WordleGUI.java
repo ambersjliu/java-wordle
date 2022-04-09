@@ -1,10 +1,10 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class WordleGUI extends JFrame implements ActionListener {
+
+public class WordleGUI extends JFrame implements KeyListener {
 
     JPanel guessesPanel; // panel for guessed letters
     JLabel[][] guessesPanelLetters; // 2d array for the guessed letters interface
@@ -22,7 +22,7 @@ public class WordleGUI extends JFrame implements ActionListener {
         guessesPanelLetters = new JLabel[wordSize + 1][wordSize];
         for (int r = 0; r < wordSize + 1; r++) {
             for (int c = 0; c < wordSize; c++) {
-                guessesPanelLetters[r][c] = new JLabel("E", SwingConstants.CENTER);
+                guessesPanelLetters[r][c] = new JLabel("", SwingConstants.CENTER);
                 guessesPanelLetters[r][c].setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
                 guessesPanel.add(guessesPanelLetters[r][c]);
                 guessesPanel.setBackground(new Color(18, 18, 19));
@@ -79,15 +79,14 @@ public class WordleGUI extends JFrame implements ActionListener {
         keyboardPanel1.setLayout(new GridLayout(1, 10));
         keyboardPanel2.setLayout(new GridLayout(1, 9));
         keyboardPanel3.setLayout(new GridLayout(1, 9));
-
         typing = new JTextField();
+        typing.addKeyListener(this);
 
         add(guessesPanel);
         add(keyboardPanel1);
         add(keyboardPanel2);
         add(keyboardPanel3);
         add(typing);
-        typing.addActionListener(this);
 
         guessesPanel.setSize(50 * wordSize, 300);
         guessesPanel.setLocation((9 - wordSize) * 25, 50);
@@ -119,9 +118,18 @@ public class WordleGUI extends JFrame implements ActionListener {
         WordleGUI wordleGUI = new WordleGUI(6);
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        System.out.println("gaming");
+    public void keyPressed(KeyEvent e) {
+        
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }
