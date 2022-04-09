@@ -6,7 +6,7 @@ public class Console{
 
     public static void main(String[] args){
         //initializing everything
-
+        System.out.println("Hello world");
         //scanner for input
         Scanner sc = new Scanner(System.in);
         Random rand = new Random();
@@ -87,6 +87,7 @@ public class Console{
             clearChars(chars);
             
         }while(answer!="EXIT");
+        sc.close();
 
 
     }
@@ -124,16 +125,27 @@ public class Console{
                 seen.replace(current, seen.get(current)-1);
             }else{
 
-                if(word.indexOf(cur)!=-1 && seen.get(current)>0){
-                    result[i] = "?"+cur;
-                    seen.replace(current, seen.get(current)-1);
-                }else{
-                    result[i] = cur;
-                }
+                result[i] = cur;
 
             }
 
         }
+
+        for(int i = 0; i <5; i++){
+            char current = entered.charAt(i);
+            String cur = "" + current;
+            String wordCur = "" + word.charAt(i);
+            if(cur.equals(wordCur)){
+                continue;
+            }
+            if (word.indexOf(cur) != -1 && seen.get(current) > 0) {
+                result[i] = "?" + cur;
+                seen.replace(current, seen.get(current) - 1);
+            } else {
+                result[i] = cur;
+            }
+        }
+
 
         return result;
 
@@ -159,6 +171,8 @@ public class Console{
 
         return count;
     }
+
+    
 
 
 
