@@ -1,5 +1,9 @@
+import control.WordleControl;
 public class Main {
-    public static void main(String[] args) {
-        WordleGUI wordleGUI = new WordleGUI(6);
+    static WordleControl control;
+    public static void main(String[] args){
+        control = new WordleControl();
+        control.initialize();
+        control.mainLoop();
     }
 }
