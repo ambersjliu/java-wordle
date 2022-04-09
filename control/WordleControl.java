@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+import model.GuessResult;
 import view.WordleGUI;
 
 
@@ -16,6 +17,8 @@ public class WordleControl {
     String word;
     String desc;
     WordleGUI game;
+    int totalRows;
+
 
     public void initialize(){
         Scanner sc = new Scanner(System.in);
@@ -61,10 +64,37 @@ public class WordleControl {
         index = rand.nextInt(words.size());
         word = words.get(index);
         desc = descs.get(index);
+        totalRows = word.length()+1;
         game = new WordleGUI(word.length());
 
     }
 
+    public void mainLoop(){
+        int guessCount=0;
+        boolean guessed = false;
+
+        while (!guessed && guessCount < totalRows){
+            String guessedWord = game.getGuessedWord();
+            GuessResult result = checkWord(word, guessedWord);
+            game.refresh(result, guessCount);
+            guessed=result.isAllGuessed();
+            guessCount++;            
+        }
+
+        if(guessed)
+            game.congratulate(desc);
+        else
+            game.sorry(desc);
+
+    }
+    
+    GuessResult checkWord(String word, String guessedWord){
+        GuessResult result = new GuessResult(word.length());
+
+        // logic here
+        return result;
+    }
+    
     /*void guessWords(){
         
     }

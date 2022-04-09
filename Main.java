@@ -4,5 +4,6 @@ public class Main {
     public static void main(String[] args){
         control = new WordleControl();
         control.initialize();
+        control.mainLoop();
     }
 }
