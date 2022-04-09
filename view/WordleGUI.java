@@ -1,5 +1,7 @@
 
 package view;
+import model.GuessResult;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -22,6 +24,7 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
     char[][] letterBoard;
     int[] cursor;
     int wordSize;
+    String guess;
 
     public WordleGUI(int wordSize) {
         this.wordSize = wordSize;
@@ -129,8 +132,21 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
         setVisible(true);
     }
 
-    public boolean checkGuess(String guess) {
-        return true;
+    public void refresh(GuessResult individualResult, int guessCount) {
+        for (int i = 0; i < this.wordSize; i++) {
+            guessesPanelLetters[guessCount][i].setText(Character.toString(letterBoard[guessCount][i]));
+            Color bkg = new Color(58, 58, 60);
+            switch (individualResult.getIndividualResult().get(i)) {
+                case 1:
+                    bkg = new Color(181, 159, 59);
+                    break;
+                case 2:
+                    bkg = new Color(83, 141, 78);
+                    break;
+            }
+            guessesPanelLetters[guessCount][i].setBackground(bkg);
+            guessesPanelLetters[guessCount][i].setOpaque(true);
+        }
     }
 
     public void updateBoard() {
@@ -151,23 +167,12 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
             if (cursor[1] != 0) {
                 letterBoard[cursor[0]][cursor[1] - 1] = ' ';
                 cursor[1]--;
-                System.out.println("char deleted");
             }
         } else if (e.getKeyCode() == 10) { //enter
             if (cursor[1] == this.wordSize) { //the row is filled
-                String guess = " "; 
+                guess = " ";
                 for (char c : letterBoard[cursor[0]]) {
                     guess += c; //fill guess string with letters in current row
-                }
-                if (checkGuess(guess)) { //if guess is verified
-                    if (cursor[0] == this.wordSize) { //if on last row
-                        System.out.println("finish game"); //game done
-                    } else {
-                        cursor[0]++; //move to next row
-                        cursor[1] = 0; //set vertical pos back to first char
-                    }
-                } else {
-                    System.out.println("invalid guess"); //guess not valid
                 }
             } else {
                 System.out.println("invalid guess"); //row not filled
@@ -177,13 +182,17 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
                 letterBoard[cursor[0]][cursor[1]] = Character.toTitleCase((char) e.getKeyCode());
                 cursor[1]++;
             } else {
-                System.out.println("full characters"); 
+                System.out.println("full characters");
             }
         } else {
             System.out.println("invalid character"); //character can be typed
         }
         updateBoard(); //set text inside buttons
         typing.setText(" ");
+    }
+
+    public String getGuessedWord() {
+        return guess;
     }
 
     @Override
@@ -211,16 +220,6 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
                 String guess = "";
                 for (char c : letterBoard[cursor[0]]) {
                     guess += c;
-                }
-                if (checkGuess(guess)) {
-                    if (cursor[0] == this.wordSize) {
-                        System.out.println("finish game");
-                    } else {
-                        cursor[0]++;
-                        cursor[1] = 0;
-                    }
-                } else {
-                    System.out.println("invalid guess");
                 }
             } else {
                 System.out.println("invalid guess");
