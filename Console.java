@@ -1,8 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Console{
 
@@ -46,8 +44,9 @@ public class Console{
         //keep playing loop
         do{
             //choose a different word every round
-            int index = rand.nextInt(s.size());
-            String word = s.get(index);
+    /*         int index = rand.nextInt(s.size());
+            String word = s.get(index); */
+            String word = "apple";
             
             
             boolean guessed = false;
@@ -110,14 +109,24 @@ public class Console{
     //Need to handle duplicate letters in a guess...
     public static String[] check(String word, String entered){
         String[] result = new String[5];
+        HashMap<Character, Integer> seen =new HashMap<Character, Integer>();
+        for (int i = 0; i<5; i++){
+            seen.put(word.charAt(i), countChar(word, word.charAt(i)));
+        }
+
         for(int i = 0; i < 5; i++){
-            String cur = "" + entered.charAt(i);
+            char current = entered.charAt(i);
+            String cur = "" + current;
             String wordCur = "" + word.charAt(i);
+            
             if(cur.equals(wordCur)){
                 result[i] = "*"+cur;
+                seen.replace(current, seen.get(current)-1);
             }else{
-                if(word.indexOf(cur)!=-1){
+
+                if(word.indexOf(cur)!=-1 && seen.get(current)>0){
                     result[i] = "?"+cur;
+                    seen.replace(current, seen.get(current)-1);
                 }else{
                     result[i] = cur;
                 }
@@ -138,5 +147,20 @@ public class Console{
             }
         }
     }
+
+    public static int countChar(String str, char c){
+        int count = 0;
+
+        for(int i=0; i < str.length(); i++){
+            if(str.charAt(i) == c){
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+
+
         
 }
