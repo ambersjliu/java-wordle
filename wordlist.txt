@@ -1,10 +1,10 @@
-vaccine 
-pandemic 
-poverty 
-climate 
+vaccine
+pandemic
+poverty
+climate
 labour
-sexism 
-racism 
+sexism
+racism
 wildlife
 hunger
 
