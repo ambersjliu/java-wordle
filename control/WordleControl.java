@@ -65,7 +65,7 @@ public class WordleControl {
         word = words.get(index);
         desc = descs.get(index);
 
-        
+  /*       
         //read in word list of all words equal to word length
         switch (word.length()) {
             case 6:
@@ -75,7 +75,7 @@ public class WordleControl {
                 break;
             default:
                 break;
-        }
+        } */
 
         totalRows = word.length()+1;
         game = new WordleGUI(word.length());
@@ -93,12 +93,12 @@ public class WordleControl {
             guessed=result.isAllGuessed();
             guessCount++;            
         }
-
+/* 
         if(guessed)
             game.congratulate(word,desc);
             //use jconfirmpane
         else
-            game.sorry(word,desc);
+            game.sorry(word,desc); */
 
     }
     
