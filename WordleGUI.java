@@ -138,12 +138,11 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        typing.setText("");
+        typing.setText(" ");
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println(e.getKeyCode());
         if (e.getKeyCode() == 8) {
             if (cursor[1] != 0) {
                 letterBoard[cursor[0]][cursor[1] - 1] = ' ';
@@ -180,12 +179,12 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
             System.out.println("invalid character");
         }
         updateBoard();
-        typing.setText("");
+        typing.setText(" ");
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        typing.setText("");
+        typing.setText(" ");
     }
 
     @Override
