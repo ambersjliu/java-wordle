@@ -22,34 +22,15 @@ public class WordleControl {
     int totalRows;
 
     public void initialize(){
-        try {
-            Scanner w4 = new Scanner(new File("words4.txt"));
-            Scanner w5 = new Scanner(new File("words5.txt"));
-            Scanner w6 = new Scanner(new File("words6.txt"));
-            Scanner w7 = new Scanner(new File("words7.txt"));
-            Scanner w8 = new Scanner(new File("words8.txt"));
-            Scanner w9 = new Scanner(new File("words9.txt"));
 
-            while (w4.hasNext()) {
-                Constants.validGuesses.add(w4.nextLine());
+        try {
+            Scanner allWords = new Scanner(new File("words.txt"));
+            while(allWords.hasNext()){
+                Constants.validGuesses.add(allWords.nextLine());
             }
-            while (w5.hasNext()) {
-                Constants.validGuesses.add(w5.nextLine());
-            }
-            while (w6.hasNext()) {
-                Constants.validGuesses.add(w6.nextLine());
-            }
-            while (w7.hasNext()) {
-                Constants.validGuesses.add(w7.nextLine());
-            }
-            while (w8.hasNext()) {
-                Constants.validGuesses.add(w8.nextLine());
-            }
-            while (w9.hasNext()) {
-                Constants.validGuesses.add(w9.nextLine());
-            }
+            allWords.close();
         } catch (Exception e) {
-//            System.out.println("file not found");
+            //TODO: handle exception
         }
         Scanner sc = new Scanner(System.in);
         Random rand = new Random();

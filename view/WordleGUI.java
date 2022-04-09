@@ -464,6 +464,7 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
 	}
     public boolean checkGuess(String guess) {
 //        System.out.println("guess is " + guess);
+        System.out.println(Constants.validGuesses.contains(guess.toUpperCase()));
         return Constants.validGuesses.contains(guess.toUpperCase());
     }
 }
