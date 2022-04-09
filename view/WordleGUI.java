@@ -1,5 +1,6 @@
 
 package view;
+import control.WordleControl;
 import model.GuessResult;
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -12,6 +13,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class WordleGUI extends JFrame implements KeyListener, ActionListener {
@@ -29,8 +32,39 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
     int[] cursor;
     int wordSize;
     String guess, guessedWord=null;
+    public ArrayList<String> validGuesses = new ArrayList<>();
+    boolean guessIsRed = false;
 
     public WordleGUI(int wordSize) {
+        try {
+            Scanner w4 = new Scanner(new File("words4.txt"));
+            Scanner w5 = new Scanner(new File("words5.txt"));
+            Scanner w6 = new Scanner(new File("words6.txt"));
+            Scanner w7 = new Scanner(new File("words7.txt"));
+            Scanner w8 = new Scanner(new File("words8.txt"));
+            Scanner w9 = new Scanner(new File("words9.txt"));
+
+            while (w4.hasNext()) {
+                validGuesses.add(w4.nextLine());
+            }
+            while (w5.hasNext()) {
+                validGuesses.add(w5.nextLine());
+            }
+            while (w6.hasNext()) {
+                validGuesses.add(w6.nextLine());
+            }
+            while (w7.hasNext()) {
+                validGuesses.add(w7.nextLine());
+            }
+            while (w8.hasNext()) {
+                validGuesses.add(w8.nextLine());
+            }
+            while (w9.hasNext()) {
+                validGuesses.add(w9.nextLine());
+            }
+        } catch (Exception e) {
+            System.out.println("file not found");
+        }
         this.wordSize = wordSize;
         guessesPanel = new JPanel();
         guessesPanelLetters = new JLabel[wordSize + 1][wordSize];
@@ -157,6 +191,13 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
     public void updateBoard() {
         for (int i = 0; i < this.wordSize; i++) {
             guessesPanelLetters[cursor[0]][i].setText(Character.toString(letterBoard[cursor[0]][i]));
+            if (guessIsRed) {
+                guessesPanelLetters[cursor[0]][i].setForeground(new Color(255, 0, 0));
+                guessesPanelLetters[cursor[0]][i].setBorder(BorderFactory.createLineBorder(new Color(255, 0, 0), 2));
+            } else {
+                guessesPanelLetters[cursor[0]][i].setForeground(Color.WHITE);
+                guessesPanelLetters[cursor[0]][i].setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+            }
         }
     }
 
@@ -171,9 +212,12 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
             if (cursor[1] != 0) {
                 letterBoard[cursor[0]][cursor[1] - 1] = ' ';
                 cursor[1]--;
+                if (guessIsRed) {
+                    guessIsRed = false;
+                }
             }
         } else if (e.getKeyCode() == 10) { //enter
-            if (cursor[1] == this.wordSize) { //the row is filled
+            if (cursor[1] == this.wordSize && !guessIsRed) { //the row is filled
                 guess = "";
                 for (char c : letterBoard[cursor[0]]) {
                     guess += c; //fill guess string with letters in current row
@@ -185,9 +229,20 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
                 System.out.println("invalid guess"); //row not filled
             }
         } else if (e.getKeyCode() >= 65 && e.getKeyCode() <= 90) { //any other letter char
-            if (cursor[1] != this.wordSize) { //row not filled yet
+            if (cursor[1] < this.wordSize - 1) { //row not filled yet
                 letterBoard[cursor[0]][cursor[1]] = Character.toTitleCase((char) e.getKeyCode());
                 cursor[1]++;
+            } else if (cursor[1] == this.wordSize - 1) {
+                letterBoard[cursor[0]][cursor[1]] = Character.toTitleCase((char) e.getKeyCode());
+                cursor[1]++;
+                String guess = "";
+                for (int i = 0; i < letterBoard[cursor[0]].length - 1; i++) {
+                    guess += letterBoard[cursor[0]][i];
+                }
+                guess += (char) e.getKeyCode();
+                if (!checkGuess(guess)) {
+                    guessIsRed = true;
+                }
             } else {
                 System.out.println("full characters");
             }
@@ -308,5 +363,9 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
 		}
 		
 	}
+    public boolean checkGuess(String guess) {
+        System.out.println("guess is " + guess);
+        return validGuesses.contains(guess.toUpperCase());
+    }
 }
 //gaming
