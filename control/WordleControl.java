@@ -19,7 +19,6 @@ public class WordleControl {
     WordleGUI game;
     int totalRows;
 
-
     public void initialize(){
         Scanner sc = new Scanner(System.in);
         Random rand = new Random();
