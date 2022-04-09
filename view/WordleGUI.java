@@ -24,7 +24,7 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
     char[][] letterBoard;
     int[] cursor;
     int wordSize;
-    String guess;
+    String guess, guessedWord=null;
 
     public WordleGUI(int wordSize) {
         this.wordSize = wordSize;
@@ -170,10 +170,11 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
             }
         } else if (e.getKeyCode() == 10) { //enter
             if (cursor[1] == this.wordSize) { //the row is filled
-                guess = " ";
+                guess = "";
                 for (char c : letterBoard[cursor[0]]) {
                     guess += c; //fill guess string with letters in current row
                 }
+                guessedWord=guess;
             } else {
                 System.out.println("invalid guess"); //row not filled
             }
@@ -191,8 +192,20 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
         typing.setText(" ");
     }
 
+    void sleep(long milliSec){
+        try {
+            Thread.sleep(milliSec);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
     public String getGuessedWord() {
-        return guess;
+        while (guessedWord==null)
+            sleep(100);
+        String result = guessedWord;
+        guessedWord=null;
+        return result;
     }
 
     @Override
