@@ -61,6 +61,8 @@ public class WordleControl {
             System.out.println("File error");
         }
         //choose random word
+
+
         index = rand.nextInt(words.size()); 
 
         word = words.get(index).toUpperCase();
@@ -78,11 +80,14 @@ public class WordleControl {
         while (!guessed && guessCount < totalRows){
             String guessedWord = game.getGuessedWord();
             System.out.println(guessedWord);
-            GuessResult result = checkWord(word, guessedWord);
-            checkAllGuessed(result);
-            game.refresh(result, guessCount);
-            guessed=result.isAllGuessed();
-            guessCount++;
+            if (game.checkGuess(guessedWord)) {
+                System.out.println(guessedWord + " is valid");
+                GuessResult result = checkWord(word, guessedWord);
+                checkAllGuessed(result);
+                game.refresh(result, guessCount);
+                guessed=result.isAllGuessed();
+                guessCount++;
+            }
         }
 
         if(guessed){
@@ -100,7 +105,7 @@ public class WordleControl {
     GuessResult checkWord(String word, String guessedWord){
         System.out.println("word is "+ word + " length is " + word.length());
         GuessResult result = new GuessResult(word.length());
-        HashMap<Character, Integer> seen =new HashMap<Character, Integer>();
+        HashMap<Character, Integer> seen =new HashMap<>();
         for (int i = 0; i<word.length(); i++){
             seen.put(word.charAt(i), countChar(word, word.charAt(i)));
         }
@@ -162,6 +167,8 @@ public class WordleControl {
 
         return count;
     }
+
+
 
     
 
