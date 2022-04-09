@@ -1,11 +1,14 @@
+
 package view;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 
-public class WordleGUI extends JFrame implements KeyListener {
+public class WordleGUI extends JFrame implements KeyListener, ActionListener {
 
     JPanel guessesPanel; // panel for guessed letters
     JLabel[][] guessesPanelLetters; // 2d array for the guessed letters interface
@@ -16,11 +19,16 @@ public class WordleGUI extends JFrame implements KeyListener {
     JButton[] keyboardRow2; // asdfghjkl
     JButton[] keyboardRow3; // (enter)zxcvbnm(delete)
     JTextField typing;
-
+    char[][] letterBoard;
+    int[] cursor;
+    int wordSize;
 
     public WordleGUI(int wordSize) {
+        this.wordSize = wordSize;
         guessesPanel = new JPanel();
         guessesPanelLetters = new JLabel[wordSize + 1][wordSize];
+        letterBoard = new char[wordSize + 1][wordSize];
+        cursor = new int[]{0, 0};
         for (int r = 0; r < wordSize + 1; r++) {
             for (int c = 0; c < wordSize; c++) {
                 guessesPanelLetters[r][c] = new JLabel("", SwingConstants.CENTER);
@@ -32,7 +40,6 @@ public class WordleGUI extends JFrame implements KeyListener {
                 guessesPanelLetters[r][c].setOpaque(true);
                 guessesPanelLetters[r][c].setForeground(Color.white);
                 guessesPanelLetters[r][c].setFont(new Font("Clear Sans", Font.BOLD, 18 - wordSize));
-                // guessPanelLetters[r][c].setIcon(icon);
             }
         }
         guessesPanel.setLayout(new GridLayout(wordSize + 1, wordSize));
@@ -55,6 +62,7 @@ public class WordleGUI extends JFrame implements KeyListener {
                 keyboardRow1[i].setOpaque(true);
                 keyboardRow1[i].setForeground(Color.white);
                 keyboardRow1[i].setFont(new Font("Clear Sans", Font.BOLD, 13));
+                keyboardRow1[i].addActionListener(this);
             } else if (i < 19) {
                 keyboardRow2[i - 10] = new JButton();
                 keyboardRow2[i - 10].setText(keyboardCharacters[i]);
@@ -64,6 +72,7 @@ public class WordleGUI extends JFrame implements KeyListener {
                 keyboardRow2[i - 10].setOpaque(true);
                 keyboardRow2[i - 10].setForeground(Color.white);
                 keyboardRow2[i - 10].setFont(new Font("Clear Sans", Font.BOLD, 13));
+                keyboardRow2[i - 10].addActionListener(this);
             } else {
                 keyboardRow3[i - 19] = new JButton();
                 keyboardRow3[i - 19].setText(keyboardCharacters[i]);
@@ -74,7 +83,9 @@ public class WordleGUI extends JFrame implements KeyListener {
                 keyboardRow3[i - 19].setForeground(Color.white);
                 keyboardRow3[i - 19].setFont(new Font("Clear Sans", Font.BOLD, 13));
                 if (i == 19) {
-                    keyboardRow3[i - 19].setFont(new Font("Clear Sans", Font.BOLD, 11));                }
+                    keyboardRow3[i - 19].setFont(new Font("Clear Sans", Font.BOLD, 11));
+                }
+                keyboardRow3[i - 19].addActionListener(this);
             }
         }
         keyboardPanel1.setLayout(new GridLayout(1, 10));
@@ -105,6 +116,8 @@ public class WordleGUI extends JFrame implements KeyListener {
 //        typing.setBackground(new Color(18, 18, 19));
         typing.setOpaque(false);
         typing.setBorder(BorderFactory.createEmptyBorder());
+        typing.setForeground(new Color(18, 18, 19));
+        typing.setBackground(new Color(18, 18, 19));
 
 
         setLayout(new BorderLayout());
@@ -114,23 +127,105 @@ public class WordleGUI extends JFrame implements KeyListener {
         getContentPane().setBackground(new Color(18, 18, 19));
         setVisible(true);
     }
-/* 
-    public static void main(String[] args) {
-        WordleGUI wordleGUI = new WordleGUI(6);
-    } */
+
+    public boolean checkGuess(String guess) {
+        return true;
+    }
+
+    public void updateBoard() {
+        for (int i = 0; i < this.wordSize; i++) {
+            guessesPanelLetters[cursor[0]][i].setText(Character.toString(letterBoard[cursor[0]][i]));
+        }
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
-
+        typing.setText("");
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        
+        System.out.println(e.getKeyCode());
+        if (e.getKeyCode() == 8) {
+            if (cursor[1] != 0) {
+                letterBoard[cursor[0]][cursor[1] - 1] = ' ';
+                cursor[1]--;
+                System.out.println("char deleted");
+            }
+        } else if (e.getKeyCode() == 10) {
+            if (cursor[1] == this.wordSize) {
+                String guess = "";
+                for (char c : letterBoard[cursor[0]]) {
+                    guess += c;
+                }
+                if (checkGuess(guess)) {
+                    if (cursor[0] == this.wordSize) {
+                        System.out.println("finish game");
+                    } else {
+                        cursor[0]++;
+                        cursor[1] = 0;
+                    }
+                } else {
+                    System.out.println("invalid guess");
+                }
+            } else {
+                System.out.println("invalid guess");
+            }
+        } else if (e.getKeyCode() >= 65 && e.getKeyCode() <= 90) {
+            if (cursor[1] != this.wordSize) {
+                letterBoard[cursor[0]][cursor[1]] = Character.toTitleCase((char) e.getKeyCode());
+                cursor[1]++;
+            } else {
+                System.out.println("full characters");
+            }
+        } else {
+            System.out.println("invalid character");
+        }
+        updateBoard();
+        typing.setText("");
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        typing.setText("");
+    }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (!e.getActionCommand().equals("DLT") && !e.getActionCommand().equals("ENTER")) {
+            if (cursor[1] != this.wordSize) {
+                letterBoard[cursor[0]][cursor[1]] = Character.toTitleCase(e.getActionCommand().charAt(0));
+                cursor[1]++;
+            } else {
+                System.out.println("full characters");
+            }
+        } else if (e.getActionCommand().equals("DLT")) {
+            if (cursor[1] != 0) {
+                letterBoard[cursor[0]][cursor[1] - 1] = ' ';
+                cursor[1]--;
+                System.out.println("char deleted");
+            }
+        } else {
+            if (cursor[1] == this.wordSize) {
+                String guess = "";
+                for (char c : letterBoard[cursor[0]]) {
+                    guess += c;
+                }
+                if (checkGuess(guess)) {
+                    if (cursor[0] == this.wordSize) {
+                        System.out.println("finish game");
+                    } else {
+                        cursor[0]++;
+                        cursor[1] = 0;
+                    }
+                } else {
+                    System.out.println("invalid guess");
+                }
+            } else {
+                System.out.println("invalid guess");
+            }
+        }
+        updateBoard();
     }
 }
+//gaming
