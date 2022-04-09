@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import model.Constants;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -32,39 +33,11 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
     int[] cursor;
     int wordSize;
     String guess, guessedWord=null;
-    public ArrayList<String> validGuesses = new ArrayList<>();
     boolean guessIsRed = false;
 
-    public WordleGUI(int wordSize) {
-        try {
-            Scanner w4 = new Scanner(new File("words4.txt"));
-            Scanner w5 = new Scanner(new File("words5.txt"));
-            Scanner w6 = new Scanner(new File("words6.txt"));
-            Scanner w7 = new Scanner(new File("words7.txt"));
-            Scanner w8 = new Scanner(new File("words8.txt"));
-            Scanner w9 = new Scanner(new File("words9.txt"));
 
-            while (w4.hasNext()) {
-                validGuesses.add(w4.nextLine());
-            }
-            while (w5.hasNext()) {
-                validGuesses.add(w5.nextLine());
-            }
-            while (w6.hasNext()) {
-                validGuesses.add(w6.nextLine());
-            }
-            while (w7.hasNext()) {
-                validGuesses.add(w7.nextLine());
-            }
-            while (w8.hasNext()) {
-                validGuesses.add(w8.nextLine());
-            }
-            while (w9.hasNext()) {
-                validGuesses.add(w9.nextLine());
-            }
-        } catch (Exception e) {
-            System.out.println("file not found");
-        }
+    public WordleGUI(int wordSize) {
+        Constants.letterStates = new int[26];
         this.wordSize = wordSize;
         guessesPanel = new JPanel();
         guessesPanelLetters = new JLabel[wordSize + 1][wordSize];
@@ -186,6 +159,119 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
             guessesPanelLetters[guessCount][i].setBackground(bkg);
             guessesPanelLetters[guessCount][i].setOpaque(true);
         }
+
+        for (int i = 0; i < 26; i++) {
+            int[] index = {0, 0};
+            switch (i) {
+                case 0:
+                    index = new int[]{1, 0};
+                    break;
+                case 1:
+                    index = new int[]{2, 5};
+                    break;
+                case 2:
+                    index = new int[]{2, 3};
+                    break;
+                case 3:
+                    index = new int[]{1, 2};
+                    break;
+                case 4:
+                    index = new int[]{0, 2};
+                    break;
+                case 5:
+                    index = new int[]{1, 3};
+                    break;
+                case 6: // g
+                    index = new int[]{1, 4};
+                    break;
+                case 7:
+                    index = new int[]{1, 5};
+                    break;
+                case 8: // i
+                    index = new int[]{0, 7};
+                    break;
+                case 9:
+                    index = new int[]{1, 6};
+                    break;
+                case 10:
+                    index = new int[]{1, 7};
+                    break;
+                case 11:
+                    index = new int[]{1, 8};
+                    break;
+                case 12: // m
+                    index = new int[]{2, 7};
+                    break;
+                case 13:
+                    index = new int[]{2, 6};
+                    break;
+                case 14:
+                    index = new int[]{0, 8};
+                    break;
+                case 15: // p
+                    index = new int[]{0, 9};
+                    break;
+                case 16: // q
+                    index = new int[]{0, 0};
+                    break;
+                case 17: // r
+                    index = new int[]{0, 3};
+                    break;
+                case 18: // s
+                    index = new int[]{1, 1};
+                    break;
+                case 19: // t
+                    index = new int[]{0, 4};
+                    break;
+                case 20: // u
+                    index = new int[]{0, 6};
+                    break;
+                case 21: // v
+                    index = new int[]{2, 4};
+                    break;
+                case 22: // w
+                    index = new int[]{0, 1};
+                    break;
+                case 23: // x
+                    index = new int[]{2, 2};
+                    break;
+                case 24: // y
+                    index = new int[]{0, 5};
+                    break;
+                case 25: // z
+                    index = new int[]{2, 1};
+                    break;
+            }
+            if (Constants.letterStates[i] == 2) {
+                if (index[0] == 0) {
+                    keyboardRow1[index[1]].setBackground(new Color(83, 141, 78));
+                    keyboardRow1[index[1]].setOpaque(true);
+                } else if (index[0] == 1) {
+                    keyboardRow2[index[1]].setBackground(new Color(83, 141, 78));
+                    keyboardRow2[index[1]].setOpaque(true);
+                } else {
+                    keyboardRow3[index[1]].setBackground(new Color(83, 141, 78));
+                    keyboardRow3[index[1]].setOpaque(true);
+                }
+            } else if (Constants.letterStates[i] == 1) {
+                if (index[0] == 0) {
+                    if (!keyboardRow1[index[1]].getBackground().equals(new Color(83, 141, 78))) {
+                        keyboardRow1[index[1]].setBackground(new Color(181, 159, 59));
+                        keyboardRow1[index[1]].setOpaque(true);
+                    }
+                } else if (index[0] == 1) {
+                    if (!keyboardRow2[index[1]].getBackground().equals(new Color(83, 141, 78))) {
+                        keyboardRow2[index[1]].setBackground(new Color(181, 159, 59));
+                        keyboardRow2[index[1]].setOpaque(true);
+                    }
+                } else {
+                    if (!keyboardRow3[index[1]].getBackground().equals(new Color(83, 141, 78))) {
+                        keyboardRow3[index[1]].setBackground(new Color(181, 159, 59));
+                        keyboardRow3[index[1]].setOpaque(true);
+                    }
+                }
+            }
+        }
     }
 
     public void updateBoard() {
@@ -226,7 +312,7 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
                 cursor[0]++;
                 cursor[1] = 0;
             } else {
-                System.out.println("invalid guess"); //row not filled
+//                System.out.println("invalid guess"); //row not filled
             }
         } else if (e.getKeyCode() >= 65 && e.getKeyCode() <= 90) { //any other letter char
             if (cursor[1] < this.wordSize - 1) { //row not filled yet
@@ -244,10 +330,10 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
                     guessIsRed = true;
                 }
             } else {
-                System.out.println("full characters");
+//                System.out.println("full characters");
             }
         } else {
-            System.out.println("invalid character"); //character can be typed
+//            System.out.println("invalid character"); //character can be typed
         }
         updateBoard(); //set text inside buttons
         typing.setText(" ");
@@ -277,29 +363,42 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (!e.getActionCommand().equals("DLT") && !e.getActionCommand().equals("ENTER")) {
-            if (cursor[1] != this.wordSize) {
+            if (cursor[1] < this.wordSize - 1) { //row not filled yet
                 letterBoard[cursor[0]][cursor[1]] = Character.toTitleCase(e.getActionCommand().charAt(0));
                 cursor[1]++;
+            } else if (cursor[1] == this.wordSize - 1) {
+                letterBoard[cursor[0]][cursor[1]] = Character.toTitleCase(e.getActionCommand().charAt(0));
+                cursor[1]++;
+                String guess = "";
+                for (int i = 0; i < letterBoard[cursor[0]].length - 1; i++) {
+                    guess += letterBoard[cursor[0]][i];
+                }
+                guess += e.getActionCommand().charAt(0);
+                if (!checkGuess(guess)) {
+                    guessIsRed = true;
+                }
             } else {
-                System.out.println("full characters");
+//                System.out.println("full characters");
             }
         } else if (e.getActionCommand().equals("DLT")) {
             if (cursor[1] != 0) {
                 letterBoard[cursor[0]][cursor[1] - 1] = ' ';
                 cursor[1]--;
-                System.out.println("char deleted");
+                if (guessIsRed) {
+                    guessIsRed = false;
+                }
             }
         } else {
-            if (cursor[1] == this.wordSize) {
+            if (cursor[1] == this.wordSize && !guessIsRed) { //the row is filled
                 guess = "";
                 for (char c : letterBoard[cursor[0]]) {
-                    guess += c;
+                    guess += c; //fill guess string with letters in current row
                 }
+                guessedWord=guess;
                 cursor[0]++;
                 cursor[1] = 0;
-                System.out.println("guess updated to " + guess);
             } else {
-                System.out.println("invalid guess");
+//                System.out.println("invalid guess"); //row not filled
             }
         }
         updateBoard();
@@ -364,8 +463,8 @@ public class WordleGUI extends JFrame implements KeyListener, ActionListener {
 		
 	}
     public boolean checkGuess(String guess) {
-        System.out.println("guess is " + guess);
-        return validGuesses.contains(guess.toUpperCase());
+//        System.out.println("guess is " + guess);
+        return Constants.validGuesses.contains(guess.toUpperCase());
     }
 }
 //gaming

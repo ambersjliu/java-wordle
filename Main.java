@@ -5,7 +5,6 @@ public class Main {
         while(true){
             control = new WordleControl();
             control.initialize();
-            System.out.println("mainLoop called");
             control.mainLoop();
         }
     }
